@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, Mail, Video, Star, CheckCircle2, Leaf, Activity, Scale, HeartPulse, ActivitySquare } from "lucide-react";
 
 // Helper: WhatsApp link
@@ -22,6 +22,24 @@ const AccordionContent = ({ children }: any) => <div>{children}</div>;
 
 export default function App() {
   const [open, setOpen] = React.useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+
+  const beforeAfterImages = [
+    "/images/after_before_1.jpeg",
+    "/images/WhatsApp Image 2024-11-19 at 2.22.39 PM (1).jpeg",
+    "/images/WhatsApp Image 2024-11-19 at 2.22.39 PM.jpeg",
+    "/images/WhatsApp Image 2024-12-24 at 11.08.42 AM.jpeg",
+  ];
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === beforeAfterImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearTimeout(timer);
+  }, [currentImageIndex, beforeAfterImages.length]);
 
   const metrics = [
     { label: "Weight", icon: <Scale className="w-5 h-5" /> },
@@ -61,7 +79,7 @@ export default function App() {
     },
   ];
 
-  const phones = ["9302559659", "7610579155"]; // from poster
+  const phones = ["919302559659", "917610579155"]; // from poster
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-800">
@@ -111,7 +129,7 @@ export default function App() {
           <p className="mt-4 text-slate-600">Personalized coaching with scientific body composition assessment: Weight, Body Fat, BMI, BMR, Visceral Fat, Skeletal Muscle and more.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild className="rounded-2xl">
-              <a href={wa(phones[0], "I want a Body Fat Analysis consultation.")}>Chat on WhatsApp</a>
+              <a href={wa(phones[1], "I want a Body Fat Analysis consultation.")}>Chat on WhatsApp</a>
             </Button>
             <Button variant="outline" asChild className="rounded-2xl">
               <a href="#about"><Video className="w-4 h-4 mr-2" /> Join on Zoom (Info)</a>
@@ -215,8 +233,19 @@ export default function App() {
               <CardHeader>
                 <CardTitle className="text-base">Client Transformation</CardTitle>
               </CardHeader>
-              <CardContent>
-                <img src="/images/after_before_1.jpeg" alt="Client Transformation" className="aspect-[16/9] w-full rounded-xl object-cover" />
+              <CardContent className="relative aspect-[16/9] w-full overflow-hidden rounded-xl">
+                <AnimatePresence>
+                  <motion.img
+                    key={currentImageIndex}
+                    src={beforeAfterImages[currentImageIndex]}
+                    alt={`Client Transformation ${currentImageIndex + 1}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                    className="absolute top-0 left-0 w-full h-full object-contain"
+                  />
+                </AnimatePresence>
               </CardContent>
             </Card>
             <Card className="rounded-2xl">
@@ -251,7 +280,7 @@ export default function App() {
                 <li>• Sample meal plan</li>
                 <li>• Q&A on Zoom</li>
               </ul>
-              <Button asChild className="w-full rounded-2xl mt-2"><a href={wa(phones[0], "I want the 3‑day free trial.")}>Start Free</a></Button>
+              <Button asChild className="w-full rounded-2xl mt-2"><a href={wa(phones[1], "I want the 3‑day free trial.")}>Start Free</a></Button>
             </CardContent>
           </Card>
           <Card className="rounded-2xl border-2 border-emerald-500">
