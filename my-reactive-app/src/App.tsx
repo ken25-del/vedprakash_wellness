@@ -111,7 +111,7 @@ export default function App() {
           <p className="mt-4 text-slate-600">Personalized coaching with scientific body composition assessment: Weight, Body Fat, BMI, BMR, Visceral Fat, Skeletal Muscle and more.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild className="rounded-2xl">
-              <a href={wa(phones[1], "I want a Body Fat Analysis consultation.")}>Chat on WhatsApp</a>
+              <a href={wa(phones[0], "I want a Body Fat Analysis consultation.")}>Chat on WhatsApp</a>
             </Button>
             <Button variant="outline" asChild className="rounded-2xl">
               <a href="#about"><Video className="w-4 h-4 mr-2" /> Join on Zoom (Info)</a>
@@ -216,7 +216,7 @@ export default function App() {
                 <CardTitle className="text-base">Client Transformation</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="aspect-[16/9] rounded-xl border grid place-items-center text-slate-500">Upload your before/after image here</div>
+                <img src="/images/after_before_1.jpeg" alt="Client Transformation" className="aspect-[16/9] w-full rounded-xl object-cover" />
               </CardContent>
             </Card>
             <Card className="rounded-2xl">
@@ -251,7 +251,7 @@ export default function App() {
                 <li>• Sample meal plan</li>
                 <li>• Q&A on Zoom</li>
               </ul>
-              <Button asChild className="w-full rounded-2xl mt-2"><a href={wa(phones[1], "I want the 3‑day free trial.")}>Start Free</a></Button>
+              <Button asChild className="w-full rounded-2xl mt-2"><a href={wa(phones[0], "I want the 3‑day free trial.")}>Start Free</a></Button>
             </CardContent>
           </Card>
           <Card className="rounded-2xl border-2 border-emerald-500">
