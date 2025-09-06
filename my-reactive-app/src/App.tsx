@@ -793,7 +793,7 @@ export default function App() {
             <p className="text-slate-600 mt-3 text-lg">Realistic, healthy progress—tracked monthly.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="rounded-2xl overflow-hidden">
+            {/* <Card className="rounded-2xl overflow-hidden">
               <CardHeader>
                 <CardTitle className="text-lg">Client Transformation</CardTitle>
               </CardHeader>
@@ -813,7 +813,28 @@ export default function App() {
                   </AnimatePresence>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
+            <Card className="rounded-2xl overflow-hidden">
+  <CardHeader>
+    <CardTitle className="text-lg">Client Transformation</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={currentImageIndex}
+          src={beforeAfterImages[currentImageIndex]}
+          alt={`Client Transformation ${currentImageIndex + 1}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className="absolute top-0 left-0 w-full h-full object-contain" // Changed from object-cover to object-contain
+        />
+      </AnimatePresence>
+    </div>
+  </CardContent>
+</Card>
             <Card className="rounded-2xl">
               <CardHeader>
                 <CardTitle className="text-lg">Monthly Progress</CardTitle>
