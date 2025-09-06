@@ -26,9 +26,25 @@ export default function App() {
 
   const beforeAfterImages = [
     "/images/after_before_1.jpeg",
-    "/images/WhatsApp Image 2024-11-19 at 2.22.39 PM (1).jpeg",
-    "/images/WhatsApp Image 2024-11-19 at 2.22.39 PM.jpeg",
-    "/images/WhatsApp Image 2024-12-24 at 11.08.42 AM.jpeg",
+    "/images/after_before_2.jpeg",
+    "/images/after_before_3.jpeg",
+    "/images/after_before_4.jpeg",
+    "/images/after_before_5.jpeg",
+    "/images/after_before_6.jpeg",
+    "/images/after_before_7.jpeg",
+    "/images/after_before_8.jpeg",
+    "/images/after_before_9.jpeg",
+    "/images/after_before_10.jpeg",
+    "/images/after_before_11.jpeg",
+    "/images/after_before_12.jpeg",
+    "/images/after_before_13.jpeg",
+    "/images/after_before_14.jpeg",
+    "/images/after_before_15.jpeg",
+    "/images/after_before_16.jpeg",
+    "/images/after_before_17.jpeg",
+    "/images/after_before_18.jpeg",
+    "/images/after_before_19.jpeg",
+    "/images/after_before_20.jpeg",
   ];
 
   React.useEffect(() => {
