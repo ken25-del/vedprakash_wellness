@@ -1,3 +1,16 @@
+/* 
+  The @tailwind directives are processed by a build tool to generate the necessary CSS.
+  If you are seeing an "Unknown at rule @tailwind" error, it means your development server
+  or build process is not configured correctly to handle Tailwind CSS.
+  
+  Please ensure you have followed the Tailwind CSS installation guide for your framework,
+  which typically involves:
+  1. Installing tailwindcss, postcss, and autoprefixer.
+  2. Creating and configuring tailwind.config.js and postcss.config.js.
+  3. Running the build process that uses PostCSS to compile your CSS.
+
+  The original code is correct for a Tailwind CSS project, so no changes are made.
+*/
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
