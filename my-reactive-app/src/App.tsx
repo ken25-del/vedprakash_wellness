@@ -398,7 +398,7 @@
 // }
 
 //nkd
-import React from "react";
+import React, { useState }  from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, Mail, Video, Star, CheckCircle2, Leaf, Activity, Scale, HeartPulse, ActivitySquare, ChevronDown } from "lucide-react";
 
@@ -419,13 +419,13 @@ const wa = (phone: string, text = "Hello! I'm interested in a Body Fat Analysis.
 //   return <Comp className={classes} {...props}>{children}</Comp>;
 // };
 // Update the Button component with proper TypeScript typing
-const Button = ({ 
-  asChild, 
-  variant = 'default', 
-  className, 
-  children, 
-  ...props 
-}: { 
+const Button = ({
+  asChild,
+  variant = 'default',
+  className,
+  children,
+  ...props
+}: {
   asChild?: boolean;
   variant?: 'default' | 'outline' | 'ghost' | 'secondary';
   className?: string;
@@ -434,17 +434,17 @@ const Button = ({
 }) => {
   const Comp = asChild ? 'div' : 'button';
   const baseClasses = "inline-flex items-center justify-center rounded-2xl font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2";
-  
+
   const variantClasses = {
     default: "bg-green-600 text-white hover:bg-green-700 shadow hover:shadow-md",
     outline: "border border-green-600 text-green-600 bg-transparent hover:bg-green-50",
     ghost: "text-green-600 hover:bg-green-50",
     secondary: "bg-slate-200 text-slate-800 hover:bg-slate-300"
   };
-  
+
   // Use type assertion to ensure variant is a valid key
   const variantClass = variantClasses[variant as keyof typeof variantClasses] || variantClasses.default;
-  
+
   const classes = `${baseClasses} ${variantClass} ${className || ''}`;
   return <Comp className={classes} {...props}>{children}</Comp>;
 };
@@ -478,7 +478,7 @@ const AccordionItem = ({ value, children }: any) => (
 );
 
 const AccordionTrigger = ({ children, onClick, isOpen }: any) => (
-  <button 
+  <button
     className="flex items-center justify-between w-full py-4 text-left font-medium text-slate-800 hover:text-green-700 focus:outline-none"
     onClick={onClick}
   >
@@ -507,6 +507,8 @@ export default function App() {
   const [open, setOpen] = React.useState(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   const [activeAccordion, setActiveAccordion] = React.useState("");
+
+const [imgError, setImgError] = useState(false);
 
   const beforeAfterImages = [
     "/images/after_before_1.jpeg",
@@ -590,13 +592,25 @@ export default function App() {
       {/* Top Bar */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 supports-[backdrop-filter]:bg-white/70 border-b border-slate-200 shadow-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between py-3 px-4">
-          <motion.div 
+          <motion.div
             className="flex items-center gap-2"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md">VS</div>
+            {/* <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md">VS</div> */}
+             <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md overflow-hidden">
+      {!imgError ? (
+        <img
+          src="/images/ved-profile.jpg" // <-- replace with your image path
+          alt="Logo"
+          className="w-full h-full object-cover rounded-2xl"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        "VS"
+      )}
+    </div>
             <div className="leading-tight">
               <p className="font-semibold tracking-tight text-slate-800">Vedprakash Sahu</p>
               <p className="text-xs text-slate-500">Wellness Coach • Body Fat Analysis</p>
@@ -604,9 +618,9 @@ export default function App() {
           </motion.div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             {["about", "metrics", "services", "results", "pricing", "contact"].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item}`} 
+              <a
+                key={item}
+                href={`#${item}`}
                 className="text-slate-600 hover:text-green-700 transition-colors duration-200 font-medium"
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
@@ -616,32 +630,32 @@ export default function App() {
               <a href={wa(phones[0], "Namaste, I want to book a 3‑day trial.")}>Book Trial</a>
             </Button>
           </nav>
-          <button 
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors" 
-            onClick={() => setOpen(!open)} 
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            onClick={() => setOpen(!open)}
             aria-label="Menu"
           >
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-        
+
         <AnimatePresence>
           {open && (
-            <motion.div 
+            <motion.div
               className="md:hidden border-t bg-white px-4 py-3 space-y-3 shadow-md"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
             >
-              {["about","metrics","services","results","pricing","contact"].map((id) => (
-                <a 
-                  key={id} 
-                  href={`#${id}`} 
-                  onClick={() => setOpen(false)} 
+              {["about", "metrics", "services", "results", "pricing", "contact"].map((id) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  onClick={() => setOpen(false)}
                   className="block py-2 text-slate-700 hover:text-green-700 transition-colors font-medium"
                 >
-                  {id[0].toUpperCase()+id.slice(1)}
+                  {id[0].toUpperCase() + id.slice(1)}
                 </a>
               ))}
               <Button asChild className="w-full rounded-2xl py-2 mt-2">
@@ -654,10 +668,10 @@ export default function App() {
 
       {/* Hero */}
       <section className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4 pt-12 pb-16 md:pb-20">
-        <motion.div 
-          initial={{opacity:0, y:20}} 
-          animate={{opacity:1, y:0}} 
-          transition={{duration:0.5}}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="flex flex-col justify-center"
         >
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-slate-900">
@@ -673,14 +687,14 @@ export default function App() {
             </Button>
           </div>
           <div className="mt-6 flex items-center gap-2 text-sm text-slate-600">
-            <Star className="w-4 h-4 text-amber-500 fill-amber-500" /> 
+            <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
             <span>3‑day free trial • 100% money‑back guarantee</span>
           </div>
         </motion.div>
-        <motion.div 
-          initial={{opacity:0, y:20}} 
-          animate={{opacity:1, y:0}} 
-          transition={{duration:0.6, delay: 0.1}} 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="relative"
         >
           <div className="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-green-50 to-emerald-100 border border-green-200 shadow-sm grid place-items-center p-6">
@@ -793,7 +807,8 @@ export default function App() {
             <p className="text-slate-600 mt-3 text-lg">Realistic, healthy progress—tracked monthly.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            {/* <Card className="rounded-2xl overflow-hidden">
+
+            <Card className="rounded-2xl overflow-hidden">
               <CardHeader>
                 <CardTitle className="text-lg">Client Transformation</CardTitle>
               </CardHeader>
@@ -808,33 +823,12 @@ export default function App() {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.5 }}
-                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      className="absolute top-0 left-0 w-full h-full object-contain" // Changed from object-cover to object-contain
                     />
                   </AnimatePresence>
                 </div>
               </CardContent>
-            </Card> */}
-            <Card className="rounded-2xl overflow-hidden">
-  <CardHeader>
-    <CardTitle className="text-lg">Client Transformation</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100">
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={currentImageIndex}
-          src={beforeAfterImages[currentImageIndex]}
-          alt={`Client Transformation ${currentImageIndex + 1}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="absolute top-0 left-0 w-full h-full object-contain" // Changed from object-cover to object-contain
-        />
-      </AnimatePresence>
-    </div>
-  </CardContent>
-</Card>
+            </Card>
             <Card className="rounded-2xl">
               <CardHeader>
                 <CardTitle className="text-lg">Monthly Progress</CardTitle>
@@ -892,7 +886,7 @@ export default function App() {
               </Button>
             </CardContent>
           </Card>
-          
+
           <Card className="rounded-2xl border-2 border-emerald-500 relative overflow-hidden">
             <div className="absolute top-0 right-0 bg-emerald-500 text-white text-xs font-semibold px-3 py-1 rounded-bl-lg">
               POPULAR
@@ -912,7 +906,7 @@ export default function App() {
               </Button>
             </CardContent>
           </Card>
-          
+
           <Card className="rounded-2xl">
             <CardHeader>
               <CardTitle>Premium (Quarterly)</CardTitle>
@@ -938,8 +932,8 @@ export default function App() {
           <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">Frequently Asked Questions</h2>
           <Accordion className="space-y-2">
             <AccordionItem value="q1">
-              <AccordionTrigger 
-                isOpen={activeAccordion === "q1"} 
+              <AccordionTrigger
+                isOpen={activeAccordion === "q1"}
                 onClick={() => toggleAccordion("q1")}
               >
                 Is this diet restrictive?
@@ -949,8 +943,8 @@ export default function App() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="q2">
-              <AccordionTrigger 
-                isOpen={activeAccordion === "q2"} 
+              <AccordionTrigger
+                isOpen={activeAccordion === "q2"}
                 onClick={() => toggleAccordion("q2")}
               >
                 Do I need a gym?
@@ -960,8 +954,8 @@ export default function App() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="q3">
-              <AccordionTrigger 
-                isOpen={activeAccordion === "q3"} 
+              <AccordionTrigger
+                isOpen={activeAccordion === "q3"}
                 onClick={() => toggleAccordion("q3")}
               >
                 How soon will I see results?
@@ -988,13 +982,13 @@ export default function App() {
             <CardContent>
               <div className="flex flex-col gap-4">
                 <Button asChild variant="outline" className="rounded-2xl py-3">
-                  <a href={`tel:${phones[0]}`}><Phone className="w-5 h-5 mr-2"/>Call {phones[0]}</a>
+                  <a href={`tel:${phones[0]}`}><Phone className="w-5 h-5 mr-2" />Call {phones[0]}</a>
                 </Button>
                 <Button asChild className="rounded-2xl py-3">
-                  <a href={wa(phones[0])}><MessageCircle className="w-5 h-5 mr-2"/>WhatsApp</a>
+                  <a href={wa(phones[0])}><MessageCircle className="w-5 h-5 mr-2" />WhatsApp</a>
                 </Button>
                 <Button asChild variant="secondary" className="rounded-2xl py-3">
-                  <a href="mailto:coach@vedprakash.fit"><Mail className="w-5 h-5 mr-2"/>Email</a>
+                  <a href="mailto:coach@vedprakash.fit"><Mail className="w-5 h-5 mr-2" />Email</a>
                 </Button>
               </div>
             </CardContent>
