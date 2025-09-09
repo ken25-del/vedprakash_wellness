@@ -532,6 +532,15 @@ export default function App() {
     "/images/after_before_18.jpeg",
     "/images/after_before_19.jpeg",
     "/images/after_before_20.jpeg",
+    "/images/after_before_21.jpeg",
+    "/images/after_before_22.jpeg",
+    "/images/after_before_23.jpeg",
+    "/images/after_before_24.jpeg",
+    "/images/after_before_25.jpeg",
+    "/images/after_before_26.jpeg",
+    "/images/after_before_27.jpeg",
+    "/images/after_before_28.jpeg",
+    "/images/after_before_29.jpeg"
   ];
 
   React.useEffect(() => {
