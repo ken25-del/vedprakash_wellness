@@ -398,9 +398,10 @@
 // }
 
 //nkd
-import React, { useState }  from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, Mail, Video, Star, CheckCircle2, Leaf, Activity, Scale, HeartPulse, ActivitySquare, ChevronDown } from "lucide-react";
+
 
 // Helper: WhatsApp link
 const wa = (phone: string, text = "Hello! I'm interested in a Body Fat Analysis.") => `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
@@ -508,7 +509,7 @@ export default function App() {
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   const [activeAccordion, setActiveAccordion] = React.useState("");
 
-const [imgError, setImgError] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const beforeAfterImages = [
     "/images/after_before_1.jpeg",
@@ -599,18 +600,18 @@ const [imgError, setImgError] = useState(false);
             transition={{ duration: 0.3 }}
           >
             {/* <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md">VS</div> */}
-             <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md overflow-hidden">
-      {!imgError ? (
-        <img
-          src="/images/ved-profile.jpg" // <-- replace with your image path
-          alt="Logo"
-          className="w-full h-full object-cover rounded-2xl"
-          onError={() => setImgError(true)}
-        />
-      ) : (
-        "VS"
-      )}
-    </div>
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md overflow-hidden">
+              {!imgError ? (
+                <img
+                  src="/images/ved-profile.jpg" // <-- replace with your image path
+                  alt="Logo"
+                  className="w-full h-full object-cover rounded-2xl"
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                "VS"
+              )}
+            </div>
             <div className="leading-tight">
               <p className="font-semibold tracking-tight text-slate-800">Vedprakash Sahu</p>
               <p className="text-xs text-slate-500">Wellness Coach • Body Fat Analysis</p>
@@ -697,7 +698,7 @@ const [imgError, setImgError] = useState(false);
           transition={{ duration: 0.6, delay: 0.1 }}
           className="relative"
         >
-          <div className="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-green-50 to-emerald-100 border border-green-200 shadow-sm grid place-items-center p-6">
+          {/* <div className="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-green-50 to-emerald-100 border border-green-200 shadow-sm grid place-items-center p-6">
             <div className="text-center">
               <div className="w-20 h-20 mx-auto rounded-full bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white text-3xl shadow-md">
                 💪
@@ -705,7 +706,30 @@ const [imgError, setImgError] = useState(false);
               <p className="font-semibold mt-4 text-slate-800 text-lg">Body Fat Analysis Available</p>
               <p className="text-sm text-slate-600 mt-1">Before / After tracking every month</p>
             </div>
-          </div>
+          </div> */}
+          <CardContent>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100">
+              <AnimatePresence mode="wait">
+                <div className="absolute inset-0">
+                  <img
+                    src={beforeAfterImages[currentImageIndex]}
+                    className="w-full h-full object-cover blur-lg scale-110"
+                    aria-hidden
+                  />
+                </div>
+                <motion.img
+                  key={currentImageIndex}
+                  src={beforeAfterImages[currentImageIndex]}
+                  alt={`Client Transformation ${currentImageIndex + 1}`}
+                  className="absolute top-0 left-0 w-full h-full object-contain"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                />
+              </AnimatePresence>
+            </div>
+          </CardContent>
         </motion.div>
       </section>
 
@@ -1021,7 +1045,19 @@ const [imgError, setImgError] = useState(false);
         <div className="max-w-6xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold text-sm">VS</div>
+              {/* <div className="w-8 h-8 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold text-sm">VS</div> */}
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md overflow-hidden">
+              {!imgError ? (
+                <img
+                  src="/images/ved-profile.jpg" // <-- replace with your image path
+                  alt="Logo"
+                  className="w-full h-full object-cover rounded-2xl"
+                  onError={() => setImgError(true)}
+                />
+              ) : (
+                "VS"
+              )}
+            </div>
               <p className="text-slate-600">© {new Date().getFullYear()} Vedprakash Sahu — Wellness Coach</p>
             </div>
             <div className="flex items-center gap-6">
