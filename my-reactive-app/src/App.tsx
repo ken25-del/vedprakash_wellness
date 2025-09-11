@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, MessageCircle, Mail, Video, Star, CheckCircle2, Leaf, Activity, Scale, HeartPulse, ActivitySquare, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, Mail, Video, Star, CheckCircle2, Leaf, Activity, Scale, HeartPulse, ActivitySquare, ChevronDown, Heart, CheckCircle } from "lucide-react";
 
 
 // Helper: WhatsApp link
@@ -198,7 +198,7 @@ export default function App() {
           >
             {/* <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md">VS</div> */}
             <div className="w-9 h-9 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 grid place-items-center text-white font-bold shadow-md overflow-hidden cursor-pointer"
-                onClick={() => setOpen(true)}
+              onClick={() => setOpen(true)}
             >
               {!imgError ? (
                 <img
@@ -215,7 +215,7 @@ export default function App() {
               <p className="font-semibold tracking-tight text-slate-800">Vedprakash Sahu</p>
               <p className="text-xs text-slate-500">Wellness Coach • Body Fat Analysis</p>
             </div>
-          
+
           </motion.div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             {["about", "metrics", "services", "results", "pricing", "contact"].map((item) => (
@@ -694,17 +694,35 @@ export default function App() {
               <h2 className="text-2xl font-bold text-gray-800">Vedprakash Sahu</h2>
               <p className="text-gray-600 italic mb-3">Wellness Coach</p>
 
-              <p className="text-gray-700 text-sm leading-relaxed mb-4">
+              <p className="text-gray-700 text-sm leading-relaxed mb-4 cursor-pointer hover:bg-green-50 focus:bg-green-100 rounded-md p-2 outline-none"
+                tabIndex={0}
+              >
                 Namaste! I'm <span className="font-semibold">Vedprakash Sahu</span>,
                 your Wellness Coach. I help busy people build healthy habits,
                 optimize nutrition and achieve visible results without extreme diets.
               </p>
 
-              <ul className="text-gray-700 space-y-2 text-sm mb-6">
-                <li>✅ Customized diet & habit plans</li>
-                <li>✅ Weekly check-ins & progress reports</li>
-                <li>✅ Simple home workouts & stretches</li>
-                <li>✅ WhatsApp support and reminders</li>
+              <ul className="text-gray-700 space-y-2 text-sm mb-6 text-left">
+
+                <li className="flex items-center gap-2 hover:bg-[#e82315]/10 focus:bg-[#e82315]/20 rounded-md p-2 outline-none" tabIndex={0}>
+                  <CheckCircle className="w-5 h-5 text-green-90" />
+                  Customized diet & habit plans
+                </li>
+
+                <li className="flex items-center gap-2 hover:bg-[#e82315]/10 focus:bg-[#e82315]/20 rounded-md p-2 outline-none" tabIndex={0}>
+                  <Star className="w-5 h-5 text-green-90" />
+                  Weekly check-ins & progress reports
+                </li>
+
+                <li className="flex items-center gap-2 hover:bg-[#e82315]/10 focus:bg-[#e82315]/20 rounded-md p-2 outline-none" tabIndex={0}>
+                  <Leaf className="w-5 h-5 text-green-90" />
+                  Simple home workouts & stretches
+                </li>
+
+                <li className="flex items-center gap-2 hover:bg-[#e82315]/10 focus:bg-[#e82315]/20 rounded-md p-2 outline-none" tabIndex={0}>
+                  <Heart className="w-5 h-5 text-green-90" />
+                  WhatsApp support and reminders
+                </li>
               </ul>
 
               <a
