@@ -708,7 +708,7 @@ export default function App() {
               </ul>
 
               <a
-                href="https://wa.me/919876543210?text=Hi%20Coach%20Ved%2C%20I%27m%20interested%20in%20your%20program."
+                href={wa(phones[0], "Hi Coach Ved, I'm interested in your program")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition self-start"
