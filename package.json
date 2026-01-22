@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "framer-motion": "^12.28.1",
+    "lucide-react": "^0.562.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
