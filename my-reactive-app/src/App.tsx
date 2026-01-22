@@ -618,9 +618,9 @@ export default function App() {
                 <div>
                   <h4 className="font-semibold text-slate-800">Working Hours</h4>
                   <ul className="mt-2 space-y-2 text-slate-600">
-                    <li className="flex justify-between"><span>Mon–Fri</span> <span>9:30 AM – 7:00 PM</span></li>
-                    <li className="flex justify-between"><span>Saturday</span> <span>10:00 AM – 4:00 PM</span></li>
-                    <li className="flex justify-between"><span>Sunday</span> <span>Closed</span></li>
+                    <li className="flex justify-between"><span>Mon–Fri</span> <span>7:30 AM - 10:00 AM</span></li>
+                    <li className="flex justify-between"><span>Saturday</span> <span>7:30 AM - 10:00 AM</span></li>
+                    <li className="flex justify-between"><span>Sunday</span> <span>7:30 AM - 10:00 AM</span></li>
                   </ul>
                 </div>
                 <div className="pt-4 border-t border-slate-200">
