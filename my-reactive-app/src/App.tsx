@@ -307,6 +307,7 @@ export default function App() {
                     src={beforeAfterImages[currentImageIndex]}
                     className="w-full h-full object-cover blur-lg scale-110"
                     aria-hidden
+                    alt="Real word tranfermation examples"
                   />
                 </div>
                 <motion.img
