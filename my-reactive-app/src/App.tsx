@@ -148,6 +148,7 @@ export default function App() {
 
   // Show header only when hero section is not visible
   React.useEffect(() => {
+    const heroElement = heroRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         // Hide header when hero is visible, show when it's not
@@ -156,13 +157,13 @@ export default function App() {
       { threshold: 0.1 }
     );
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
+    if (heroElement) {
+      observer.observe(heroElement);
     }
 
     return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
+      if (heroElement) {
+        observer.unobserve(heroElement);
       }
     };
   }, []);
