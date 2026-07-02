@@ -98,6 +98,8 @@ export default function App() {
   const [open, setOpen] = React.useState(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   const [activeAccordion, setActiveAccordion] = React.useState("");
+  const [showHeader, setShowHeader] = React.useState(false);
+  const heroRef = React.useRef<HTMLDivElement>(null);
 
   const [imgError, setImgError] = useState(false);
   // const [open, setOpen] = useState(false);
@@ -143,6 +145,27 @@ export default function App() {
 
     return () => clearTimeout(timer);
   }, [currentImageIndex, beforeAfterImages.length]);
+
+  // Show header only when hero section is not visible
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Hide header when hero is visible, show when it's not
+        setShowHeader(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    if (heroRef.current) {
+      observer.observe(heroRef.current);
+    }
+
+    return () => {
+      if (heroRef.current) {
+        observer.unobserve(heroRef.current);
+      }
+    };
+  }, []);
 
   const metrics = [
     { label: "Weight", icon: <Scale className="w-5 h-5" /> },
@@ -192,7 +215,12 @@ export default function App() {
 
     <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-800">
       {/* Top Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-lg bg-white/90 supports-[backdrop-filter]:bg-white/85 border-b border-slate-200/50 shadow-sm">
+      <motion.header 
+        className="sticky top-0 z-50 backdrop-blur-lg bg-white/0 supports-[backdrop-filter]:bg-white/0 border-b border-transparent shadow-sm"
+        initial={{ y: 0 }}
+        animate={{ y: showHeader ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
         <div className="max-w-6xl mx-auto flex items-center justify-between py-4 px-4 md:px-6">
           <motion.div
             className="flex items-center gap-3"
@@ -270,10 +298,10 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
-      </header>
+      </motion.header>
 
       {/* Hero */}
-      <section className="relative min-h-[70vh] flex items-center bg-gradient-to-br from-slate-50 via-emerald-50 to-cyan-50 overflow-hidden">
+      <section ref={heroRef} className="relative min-h-[70vh] flex items-center bg-gradient-to-br from-slate-50 via-emerald-50 to-cyan-50 overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-green-200 to-transparent rounded-full opacity-20 blur-3xl"></div>
@@ -1010,33 +1038,41 @@ export default function App() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 backdrop-blur-sm p-4"
+            className="fixed inset-0 flex items-center justify-center bg-black/60 z-50 backdrop-blur-sm p-4"
             onClick={() => setOpen(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col md:flex-row"
+              className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col md:flex-row max-h-[90vh] overflow-y-auto md:overflow-y-visible"
               onClick={(e) => e.stopPropagation()}
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ duration: 0.4, type: "spring", stiffness: 300, damping: 25 }}
             >
               {/* Close Button */}
-              <button
+              <motion.button
                 onClick={() => setOpen(false)}
                 className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors z-10 p-2 hover:bg-slate-100 rounded-full"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <X className="w-6 h-6" />
-              </button>
+              </motion.button>
 
               {/* Left Side: Profile Image */}
-              <div className="md:w-1/2 w-full flex items-center justify-center p-8 bg-gradient-to-br from-green-50 via-emerald-50 to-cyan-50">
+              <div className="md:w-1/2 w-full flex items-center justify-center p-4 md:p-8 bg-gradient-to-br from-green-50 via-emerald-50 to-cyan-50 relative overflow-hidden md:min-h-auto min-h-fit">
+                {/* Decorative background */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-green-300 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-cyan-300 rounded-full blur-3xl"></div>
+                </div>
+                
                 <motion.div 
-                  className="w-48 h-48 rounded-full overflow-hidden border-4 border-green-500 shadow-2xl"
-                  whileHover={{ scale: 1.05 }}
+                  className="w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-green-500 shadow-2xl relative z-10"
+                  whileHover={{ scale: 1.08, boxShadow: "0 20px 50px rgba(22, 163, 74, 0.3)" }}
                   transition={{ duration: 0.3 }}
                 >
                   <img
@@ -1048,54 +1084,82 @@ export default function App() {
               </div>
 
               {/* Right Side Content */}
-              <div className="md:w-1/2 w-full p-8 flex flex-col justify-center">
-                <h2 className="text-3xl font-bold text-slate-900 mb-1">Vedprakash Sahu</h2>
-                <p className="text-slate-500 font-semibold mb-4">💚 Wellness Coach & Nutritionist</p>
+              <div className="md:w-1/2 w-full p-4 md:p-8 flex flex-col justify-center">
+                {/* Header Badge */}
+                <div className="inline-flex items-center gap-2 mb-3 w-fit">
+                  <div className="w-2 h-2 rounded-full bg-green-600 animate-pulse"></div>
+                  <span className="text-xs font-bold text-green-600 uppercase tracking-wider">Certified Wellness Coach</span>
+                </div>
 
-                <p className="text-slate-700 leading-relaxed mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-1">Vedprakash Sahu</h2>
+                <p className="text-base md:text-lg text-green-600 font-semibold mb-5">💚 Wellness Coach & Nutritionist</p>
+
+                <p className="text-slate-700 leading-relaxed mb-7 text-sm md:text-base">
                   I help busy professionals achieve their wellness goals without extreme diets or grueling gym routines. Personalized, science-backed coaching tailored to your lifestyle.
                 </p>
 
-                <ul className="space-y-3 mb-8">
-                  <motion.li 
-                    className="flex items-start gap-3 hover:bg-slate-50 p-2 rounded-lg transition-colors cursor-pointer"
-                    whileHover={{ x: 4 }}
+                {/* Features List */}
+                <div className="space-y-2.5 mb-8">
+                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">What You Get</div>
+                  
+                  <motion.div 
+                    className="flex items-start gap-3 hover:bg-green-50 p-3 rounded-lg transition-all cursor-pointer group"
+                    whileHover={{ x: 6 }}
                   >
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-slate-700 font-medium">Customized diet & habit plans</span>
-                  </motion.li>
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
+                      <CheckCircle className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-slate-700 font-medium text-sm md:text-base">Customized diet & habit plans</span>
+                  </motion.div>
 
-                  <motion.li 
-                    className="flex items-start gap-3 hover:bg-slate-50 p-2 rounded-lg transition-colors cursor-pointer"
-                    whileHover={{ x: 4 }}
+                  <motion.div 
+                    className="flex items-start gap-3 hover:bg-green-50 p-3 rounded-lg transition-all cursor-pointer group"
+                    whileHover={{ x: 6 }}
                   >
-                    <Star className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-slate-700 font-medium">Weekly check-ins & progress reports</span>
-                  </motion.li>
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
+                      <Star className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-slate-700 font-medium text-sm md:text-base">Weekly check-ins & progress reports</span>
+                  </motion.div>
 
-                  <motion.li 
-                    className="flex items-start gap-3 hover:bg-slate-50 p-2 rounded-lg transition-colors cursor-pointer"
-                    whileHover={{ x: 4 }}
+                  <motion.div 
+                    className="flex items-start gap-3 hover:bg-green-50 p-3 rounded-lg transition-all cursor-pointer group"
+                    whileHover={{ x: 6 }}
                   >
-                    <Leaf className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-slate-700 font-medium">Home workouts & stretching routines</span>
-                  </motion.li>
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
+                      <Leaf className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-slate-700 font-medium text-sm md:text-base">Home workouts & stretching routines</span>
+                  </motion.div>
 
-                  <motion.li 
-                    className="flex items-start gap-3 hover:bg-slate-50 p-2 rounded-lg transition-colors cursor-pointer"
-                    whileHover={{ x: 4 }}
+                  <motion.div 
+                    className="flex items-start gap-3 hover:bg-green-50 p-3 rounded-lg transition-all cursor-pointer group"
+                    whileHover={{ x: 6 }}
                   >
-                    <Heart className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-slate-700 font-medium">24/7 WhatsApp support & reminders</span>
-                  </motion.li>
-                </ul>
+                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
+                      <Heart className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-slate-700 font-medium text-sm md:text-base">24/7 WhatsApp support & reminders</span>
+                  </motion.div>
+                </div>
 
-                <Button asChild className="w-full py-3 text-base">
-                  <a href={wa(phones[0], "Hi Coach Ved, I'm interested in your program")}>
-                    <MessageCircle className="w-5 h-5 mr-2" />
-                    Start Your Journey
-                  </a>
-                </Button>
+                {/* CTA Button */}
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Button asChild className="w-full py-3.5 text-base font-semibold">
+                    <a href={wa(phones[0], "Hi Coach Ved, I'm interested in your program")}>
+                      <MessageCircle className="w-5 h-5 mr-2" />
+                      Start Your Journey Today
+                    </a>
+                  </Button>
+                </motion.div>
+
+                {/* Trust Signal */}
+                <p className="text-center text-xs text-slate-500 mt-4">
+                  ✓ 3-day free trial • ✓ 100% money-back guarantee • ✓ No commitment
+                </p>
               </div>
             </motion.div>
           </motion.div>
